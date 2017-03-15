@@ -1,0 +1,55 @@
+<!-- Fixed navbar -->
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">dashboard</a>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+            {% if is_granted('ROLE_USER') == false %}
+                <ul class="nav navbar-nav">
+                    <li{{ (app.request.requestUri == path('homepage')) ? ' class="active"'}}><a href="{{ path('homepage') }}">Home</a></li>
+                    <li{{ (app.request.requestUri == path('fos_user_registration_register')) ? ' class="active"'}}><a href="{{ path('fos_user_registration_register') }}">Sign Up</a></li>
+                </ul>
+
+                <form class="navbar-form navbar-right" role="form" action="{{ path('fos_user_security_check') }}" method="post">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+                    <div class="form-group">
+                        <input type="text" placeholder="{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}" class="form-control" name="_username">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}" class="form-control" name="_password">
+                    </div>
+                    <button type="submit" class="btn btn-success">Sign in</button>
+                </form>
+            {% else %}
+                <ul class="nav navbar-nav">
+                    <li{{ (app.request.requestUri == path('dashboard')) ? ' class="active"'}}><a href="{{ url('dashboard') }}">Dashboard</a></li>
+                    <li{{ (app.request.requestUri == path('changelog')) ? ' class="active"'}}><a href="{{ path('changelog') }}">Changelog</a></li>
+
+                    {% if is_granted('ROLE_ADMIN') == true %}
+                        <li{{ (app.request.requestUri == path('admin')) ? ' class="active"'}}><a href="{{ path('admin') }}">Administration</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li role="presentation" class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-user"></span>
+                            {{ 'layout.logged_in_as'|trans({'%username%':app.user.username}, 'FOSUserBundle') }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('fos_user_profile_edit') }}">{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}</a></li>
+                            <li><a href="{{ path('fos_user_change_password') }}">{{ 'change_password.submit'|trans({}, 'FOSUserBundle') }}</a></li>
+                            <li><a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>

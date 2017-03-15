@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+
+    {% stylesheets
+    '@AppBundle/Resources/app.css'
+    '%kernel.root_dir%/../vendor/datatables/datatables/media/css/jquery.dataTables.css'
+    '%kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less'
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet"/>
+    {% endstylesheets %}
+
+    {% javascripts
+    '%kernel.root_dir%/../vendor/components/jquery/jquery.js'
+    '%kernel.root_dir%/../vendor/twitter/bootstrap/dist/js/bootstrap.min.js'
+    '%kernel.root_dir%/../vendor/datatables/datatables/media/js/jquery.dataTables.js'
+    %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+    {% block stylesheets %}{% endblock %}
+
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+{% include 'AppBundle::navigation.html.twig' %}
+{% block body %}{% endblock %}
+
+<footer class="footer">
+        <div class="container">
+                <p class="text-muted">&copy; 2016 - Oliver Feige</p>
+        </div>
+</footer>
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>

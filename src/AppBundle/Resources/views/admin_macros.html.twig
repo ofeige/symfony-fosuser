@@ -1,0 +1,15 @@
+{% macro promote(role, id) %}
+    {% if 'ROLE_ADMIN' in role %}
+        <a href="{{ path('admin_demote',  {'id': id}) }}" class="btn btn-default">{{ 'demote'|trans() }}</a>
+    {% else %}
+        <a href="{{ path('admin_promote', {'id': id}) }}" class="btn btn-default">{{ 'promote'|trans() }}</a>
+    {% endif %}
+{% endmacro %}
+
+{% macro activate(enabled, id) %}
+    {% if enabled == '1' %}
+        <a href="{{ path('admin_deactivate',  {'id': id}) }}" class="btn btn-default">{{ 'deactivate'|trans() }}</a>
+    {% else %}
+        <a href="{{ path('admin_activate',  {'id': id}) }}" class="btn btn-default">{{ 'activate'|trans() }}</a>
+    {% endif %}
+{% endmacro %}
