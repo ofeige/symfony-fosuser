@@ -35,11 +35,13 @@
         "twitter/bootstrap": "^3.3",
         "components/jquery": "^3.1",
         "datatables/datatables": "^1.10",
-        "symfony/translation": "^3.2"
+        "symfony/translation": "^3.2",
+        "knplabs/knp-paginator-bundle": "^2.5"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
+        "symfony/phpunit-bridge": "^3.0",
+        "doctrine/doctrine-fixtures-bundle": "^2.3"
     },
     "scripts": {
         "symfony-scripts": [

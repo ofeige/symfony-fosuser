@@ -1,6 +1,6 @@
 {% extends 'AppBundle::layout.html.twig' %}
 
-{% import 'AppBundle::admin_macros.html.twig' as forms %}
+{% import 'AppBundle:admin:macros.html.twig' as forms %}
 
 
 {% block body %}
@@ -9,20 +9,20 @@
             <h1>Administration</h1>
         </div>
         <p>...</p>
-
+        {{ knp_pagination_filter(pagination, {'u.email': 'E-Mail'|trans(), 'u.username':'Username'}) }}
         <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th>#</th>
-                <th>Username</th>
-                <th>E-Mail</th>
-                <th>isActive</th>
-                <th>Role</th>
+                <th>{{ forms.tableHeadline(pagination, 'ID', 'u.id') }}</th>
+                <th>{{ forms.tableHeadline(pagination, 'Username'|trans(), 'u.username') }}</th>
+                <th>{{ forms.tableHeadline(pagination, 'E-Mail'|trans(), 'u.email') }}</th>
+                <th>{{ forms.tableHeadline(pagination, 'active'|trans(), 'u.enabled') }}</th>
+                <th>{{ 'Role'|trans }}</th>
                 <th></th>
             </tr>
             </thead>
 
-            {% for data in table %}
+            {% for data in pagination %}
                 <tr>
                     <td>{{ data.id }}</td>
                     <td>{{ data.getUsername }}</td>
@@ -37,17 +37,19 @@
                             {% endif %}
                         {% endfor %}
                     <td style="text-align: right"><div class="btn-group btn-group-sm" role="group" aria-label="admin action">
-                        {{ forms.promote(data.roles, data.id) }}
-                        {{ forms.activate(data.enabled, data.id) }}
-                    </div></td>
+                            {{ forms.promote(data.roles, {'id':data.id}|merge(pagination.params)) }}
+                            {{ forms.activate(data.enabled, {'id':data.id}|merge(pagination.params)) }}
+                        </div></td>
                 </tr>
             {% endfor %}
         </table>
-
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
     </div>
 {% endblock %}
 
 {% block title %}
-Administration Area
+    Administration Area
 {% endblock %}
 

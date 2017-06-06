@@ -1,4 +1,3 @@
-
 Locale: 'Locale:'
 English: 'english'
 German: 'german'
@@ -8,3 +7,8 @@ demote: 'demote'
 promote: 'promote'
 deactivate: 'deactivate'
 activate: 'activate'
+
+E-Mail: 'E-Mail'
+Username: 'User name'
+Filter: 'Filter'
+Role: 'Role'

@@ -1,4 +1,12 @@
-sonfony_new
-===========
+#Base Project with Admin Area and FOS UserBundle
 
-A Symfony project created on March 7, 2017, 2:19 pm.
+##Installation
+
+```
+composer install
+bin/console doctrine:create:database
+bin/console doctrine:schema:update
+bin/console doctrine:fixtures:load
+bin/console assetic:dump
+```
+

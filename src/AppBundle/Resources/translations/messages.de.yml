@@ -7,3 +7,8 @@ demote: 'degradieren'
 promote: 'befördern'
 deactivate: 'deaktivieren'
 activate: 'aktivieren'
+
+E-Mail: 'E-Mail'
+Username: 'Benutzername'
+Filter: 'Filter'
+Role: 'Rolle'

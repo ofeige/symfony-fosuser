@@ -54,6 +54,7 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
+        server_version: 5.7
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/../var/data/data.sqlite"
@@ -91,6 +92,7 @@ fos_user:
         sender_name:    Demo App
     service:
         mailer: fos_user.mailer.twig_swift
+    use_listener: false
 
 assetic:
     debug:          "%kernel.debug%"
@@ -103,4 +105,31 @@ assetic:
         lessphp:
             file: '%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php'
             apply_to: ".less$"
+    assets:
+        icons-svg:
+            inputs: '%kernel.root_dir%/../vendor/twitter/bootstrap/fonts/glyphicons-halflings-regular.svg'
+            output: 'fonts/glyphicons-halflings-regular.svg'
+        icons-woff:
+            inputs: '%kernel.root_dir%/../vendor/twitter/bootstrap/fonts/glyphicons-halflings-regular.woff'
+            output: 'fonts/glyphicons-halflings-regular.woff'
+        icons-woff2:
+            inputs: '%kernel.root_dir%/../vendor/twitter/bootstrap/fonts/glyphicons-halflings-regular.woff2'
+            output: 'fonts/glyphicons-halflings-regular.woff2'
+        icons-ttf:
+            inputs: '%kernel.root_dir%/../vendor/twitter/bootstrap/fonts/glyphicons-halflings-regular.ttf'
+            output: 'fonts/glyphicons-halflings-regular.ttf'
+        icons-eot:
+            inputs: '%kernel.root_dir%/../vendor/twitter/bootstrap/fonts/glyphicons-halflings-regular.eot'
+            output: 'fonts/glyphicons-halflings-regular.eot'
 
+knp_paginator:
+    page_range: 5                      # default page range used in pagination control
+    default_options:
+        page_name: page                # page query parameter name
+        sort_field_name: sort          # sort field query parameter name
+        sort_direction_name: direction # sort direction query parameter name
+        distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    template:
+        pagination: 'KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig'     # sliding pagination controls template
+        sortable: 'KnpPaginatorBundle:Pagination:sortable_link.html.twig' # sort link template
+        filtration: 'AppBundle:admin:filtration.html.twig'

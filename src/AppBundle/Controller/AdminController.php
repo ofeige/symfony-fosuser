@@ -6,25 +6,31 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller
 {
     /**
-     * @Route("/admin", name="admin")
+     * @Route("/admin/{page}", name="admin", requirements={"page": "\d+"})
      * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET"})
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function adminAction()
+    public function adminAction(Request $request, $page = 1): Response
     {
-        $repository = $this->getDoctrine()
-                           ->getRepository('AppBundle:User');
+        $em = $this->getDoctrine()->getManager();
+        $queryBuilder = $em->getRepository('AppBundle:User')->createQueryBuilder('u');
 
-        $results = $repository->findAll();
+        $pagination = $this->get('knp_paginator')->paginate(
+            $queryBuilder,
+            $page,
+            10
+        );
 
-        return $this->render('AppBundle::admin.html.twig', ['headline' => 'User Admin',
-                                                            'table'    => $results,
+        return $this->render('AppBundle:Admin:list.html.twig', [
+            'pagination'    => $pagination
         ]);
     }
 
@@ -36,7 +42,7 @@ class AdminController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function demoteAction($id)
+    public function demoteAction(Request $request, int $id)
     {
         $userManager = $this->container->get('fos_user.user_manager');
         $user        = $userManager->findUserBy(['id' => $id]);
@@ -45,7 +51,7 @@ class AdminController extends Controller
 
         $userManager->updateUser($user);
 
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('admin', $request->query->all());
     }
 
     /**
@@ -56,7 +62,7 @@ class AdminController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function promoteAction($id)
+    public function promoteAction(Request $request, $id)
     {
         $userManager = $this->container->get('fos_user.user_manager');
         $user        = $userManager->findUserBy(['id' => $id]);
@@ -65,7 +71,7 @@ class AdminController extends Controller
 
         $userManager->updateUser($user);
 
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('admin', $request->query->all());
     }
 
     /**
@@ -76,7 +82,7 @@ class AdminController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function deactivateAction($id)
+    public function deactivateAction(Request $request, $id)
     {
         $userManager = $this->container->get('fos_user.user_manager');
         $user        = $userManager->findUserBy(['id' => $id]);
@@ -85,7 +91,7 @@ class AdminController extends Controller
 
         $userManager->updateUser($user);
 
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('admin', $request->query->all());
     }
 
     /**
@@ -96,7 +102,7 @@ class AdminController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function activateAction($id)
+    public function activateAction(Request $request, $id)
     {
         $userManager = $this->container->get('fos_user.user_manager');
         $user        = $userManager->findUserBy(['id' => $id]);
@@ -105,6 +111,6 @@ class AdminController extends Controller
 
         $userManager->updateUser($user);
 
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('admin', $request->query->all());
     }
 }

@@ -1,0 +1,25 @@
+{% macro promote(role, params) %}
+    {% if 'ROLE_ADMIN' in role %}
+        <a href="{{ path('admin_demote',  params) }}" class="btn btn-default">{{ 'demote'|trans() }}</a>
+    {% else %}
+        <a href="{{ path('admin_promote', params) }}" class="btn btn-default">{{ 'promote'|trans() }}</a>
+    {% endif %}
+{% endmacro %}
+
+{% macro activate(enabled, params) %}
+    {% if enabled == '1' %}
+        <a href="{{ path('admin_deactivate',  params) }}" class="btn btn-default">{{ 'deactivate'|trans() }}</a>
+    {% else %}
+        <a href="{{ path('admin_activate',  params) }}" class="btn btn-default">{{ 'activate'|trans() }}</a>
+    {% endif %}
+{% endmacro %}
+
+{% macro tableHeadline(pagination, text, key) %}
+    {% if pagination.isSorted(key) and pagination.getDirection() == 'asc' %}
+        <span class="glyphicon glyphicon-triangle-bottom"></span>
+
+    {% elseif pagination.isSorted(key) and pagination.getDirection() == 'desc' %}
+        <span class="glyphicon glyphicon-triangle-top"></span>
+    {% endif %}
+    {{ knp_pagination_sortable(pagination, text, key) }}
+{% endmacro %}
