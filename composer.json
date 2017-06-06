@@ -1,5 +1,6 @@
 {
     "name": "vagrant/symfony_new",
+    "description": "base project with admin area and FOSUserBundle",
     "license": "proprietary",
     "type": "project",
     "autoload": {
